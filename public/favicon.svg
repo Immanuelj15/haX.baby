@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f5c96b" />
+      <stop offset="100%" stop-color="#a34063" />
+    </radialGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="#17172f" />
+  <circle cx="16" cy="16" r="11" fill="#fff8f1" />
+  <!-- Cute little skull eye sockets -->
+  <circle cx="12.5" cy="15.5" r="3.2" fill="#17172f" />
+  <circle cx="19.5" cy="15.5" r="3.2" fill="#17172f" />
+  <!-- Amber pinpricks of light in eyes -->
+  <circle cx="12.5" cy="15.5" r="1.1" fill="#f5c96b" />
+  <circle cx="19.5" cy="15.5" r="1.1" fill="#f5c96b" />
+  <!-- Tiny crooked smile -->
+  <path d="M 13.5 21 Q 16 23.2 18.5 21" stroke="#17172f" stroke-width="1.3" stroke-linecap="round" fill="none" />
+  <!-- Nightcap tip with pink bow -->
+  <path d="M 8 10 Q 16 3 24 9" stroke="#f8dce5" stroke-width="2.5" stroke-linecap="round" fill="none" />
+  <circle cx="24" cy="9" r="2.2" fill="#a34063" />
+</svg>

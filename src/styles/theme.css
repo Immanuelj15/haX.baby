@@ -1,0 +1,469 @@
+/* ==========================================================================
+   PIP'S MIDNIGHT DREAM OS — DESIGN TOKENS & CORE THEME SYSTEM
+   Track 1: Pip, the Skull Baby | haX.baby Portfolio
+   ========================================================================== */
+
+:root {
+  /* Official Core Palette */
+  --c-cream: #fff8f1;
+  --c-berry: #a34063;
+  --c-chocolate: #5c4033;
+  --c-blush: #f8dce5;
+  --c-peach: #ffe8d6;
+  --c-lavender: #dcd2f5;
+  --c-gold: #f5c96b;
+  --c-gold-amber: #e5a93c;
+  --c-navy: #17172f;
+  --c-navy-deep: #101024;
+  --c-soft-white: #fffdfb;
+
+  /* Typography */
+  --font-display: 'Fredoka', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-mono: 'VT323', monospace;
+
+  /* Default transitions */
+  --transition-theme: background-color 0.4s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
+  --transition-fast: 0.15s ease-in-out;
+  --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+}
+
+/* ==========================================================================
+   THEME DEFINITIONS: DAY MODE (Cream, Berry, Blush, Peach)
+   ========================================================================== */
+[data-theme="day"] {
+  --bg-main: #fff8f1;
+  --bg-gradient: radial-gradient(circle at 15% 15%, #ffe8d6 0%, #fff8f1 50%, #fbf3ec 100%);
+  --bg-surface: #fffdfb;
+  --bg-surface-elevated: #ffffff;
+  --bg-accent-soft: #f8dce5;
+  --bg-lavender-soft: #f1edfb;
+  
+  --text-main: #5c4033;
+  --text-secondary: #7e5c4d;
+  --text-muted: #9f8073;
+  --text-on-accent: #ffffff;
+
+  --accent-primary: #a34063;
+  --accent-secondary: #d46389;
+  --accent-gold: #d8961d;
+  --accent-gold-soft: #faeed4;
+  
+  --border-light: rgba(163, 64, 99, 0.15);
+  --border-medium: rgba(163, 64, 99, 0.28);
+  --border-heavy: #a34063;
+  --border-window: #a34063;
+
+  --window-bar-bg: linear-gradient(90deg, #a34063 0%, #c45b82 100%);
+  --window-bar-text: #fff8f1;
+  --window-body-bg: #fffdfb;
+  --window-border: 2px solid #a34063;
+
+  --shadow-retro: 4px 5px 0px rgba(92, 64, 51, 0.22);
+  --shadow-retro-pressed: 1px 2px 0px rgba(92, 64, 51, 0.3);
+  --shadow-window: 6px 8px 0px rgba(163, 64, 99, 0.18);
+  --shadow-glow: 0 0 25px rgba(245, 201, 107, 0.45);
+  --shadow-soft: 0 10px 30px -5px rgba(163, 64, 99, 0.1);
+
+  --pip-eye-light: #f5c96b;
+  --sky-stars-opacity: 0.25;
+}
+
+/* ==========================================================================
+   THEME DEFINITIONS: NIGHT MODE (Deep Navy, Violet, Moonlight Gold, Soft Cream)
+   ========================================================================== */
+[data-theme="night"] {
+  --bg-main: #121226;
+  --bg-gradient: radial-gradient(circle at 75% 10%, #201e45 0%, #17172f 45%, #101024 100%);
+  --bg-surface: #1d1d3a;
+  --bg-surface-elevated: #24244a;
+  --bg-accent-soft: rgba(220, 210, 245, 0.12);
+  --bg-lavender-soft: rgba(220, 210, 245, 0.08);
+
+  --text-main: #fff8f1;
+  --text-secondary: #dcd2f5;
+  --text-muted: #9d95be;
+  --text-on-accent: #17172f;
+
+  --accent-primary: #f5c96b;
+  --accent-secondary: #e59bb3;
+  --accent-gold: #f5c96b;
+  --accent-gold-soft: rgba(245, 201, 107, 0.15);
+
+  --border-light: rgba(220, 210, 245, 0.16);
+  --border-medium: rgba(245, 201, 107, 0.32);
+  --border-heavy: #f5c96b;
+  --border-window: #f5c96b;
+
+  --window-bar-bg: linear-gradient(90deg, #282855 0%, #3a3875 100%);
+  --window-bar-text: #f5c96b;
+  --window-body-bg: #1d1d3a;
+  --window-border: 2px solid #3d3b70;
+
+  --shadow-retro: 4px 5px 0px rgba(0, 0, 0, 0.6);
+  --shadow-retro-pressed: 1px 2px 0px rgba(0, 0, 0, 0.8);
+  --shadow-window: 6px 8px 0px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 35px rgba(245, 201, 107, 0.5);
+  --shadow-soft: 0 12px 35px -5px rgba(0, 0, 0, 0.6);
+
+  --pip-eye-light: #ffe699;
+  --sky-stars-opacity: 0.85;
+}
+
+/* ==========================================================================
+   GLOBAL RESET & BASE STYLES
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-main);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: var(--transition-theme);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Retro Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+  border-left: 1px solid var(--border-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border: 2px solid var(--bg-main);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+/* Selection */
+::selection {
+  background: var(--c-blush);
+  color: var(--c-berry);
+}
+
+[data-theme="night"] ::selection {
+  background: var(--c-berry);
+  color: var(--c-gold);
+}
+
+/* Links & Buttons */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--accent-gold);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   RETRO OS WINDOW SYSTEM COMPONENTS
+   ========================================================================== */
+.retro-window {
+  background: var(--window-body-bg);
+  border: var(--window-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-window);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.3s ease;
+}
+
+.retro-window:hover {
+  box-shadow: var(--shadow-window), 0 0 20px rgba(245, 201, 107, 0.15);
+}
+
+.window-titlebar {
+  background: var(--window-bar-bg);
+  color: var(--window-bar-text);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.03em;
+  border-bottom: 2px solid var(--border-medium);
+}
+
+.window-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.window-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.window-btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.window-btn.btn-min {
+  background: #f5c96b;
+}
+
+.window-btn.btn-max {
+  background: #a8d5ba;
+}
+
+.window-btn.btn-close {
+  background: #e26d95;
+}
+
+.window-statusbar {
+  padding: 6px 14px;
+  background: var(--bg-surface-elevated);
+  border-top: 1px dashed var(--border-medium);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #3bb273;
+  box-shadow: 0 0 8px #3bb273;
+  animation: pulseStatus 2s infinite;
+}
+
+/* ==========================================================================
+   RETRO BUTTONS & CHIPS
+   ========================================================================== */
+.retro-btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  background: var(--accent-primary);
+  color: var(--text-on-accent);
+  border: 2px solid var(--text-main);
+  box-shadow: var(--shadow-retro);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  text-transform: none;
+}
+
+.retro-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 7px 0px rgba(92, 64, 51, 0.28);
+}
+
+[data-theme="night"] .retro-btn:hover {
+  box-shadow: 6px 7px 0px rgba(0, 0, 0, 0.7);
+}
+
+.retro-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-retro-pressed);
+}
+
+.retro-btn.secondary {
+  background: var(--bg-surface-elevated);
+  color: var(--text-main);
+  border: 2px solid var(--border-medium);
+}
+
+.retro-btn.secondary:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.retro-btn.sm {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  box-shadow: 2px 3px 0px rgba(92, 64, 51, 0.2);
+}
+
+/* Badge / Pill */
+.retro-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--bg-accent-soft);
+  color: var(--accent-primary);
+  border: 1px solid var(--border-light);
+}
+
+/* Section Header Styles */
+.section-wrapper {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  position: relative;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-primary);
+  background: var(--bg-accent-soft);
+  padding: 3px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  border: 1px dashed var(--border-medium);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.section-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 650px;
+  margin-bottom: 40px;
+}
+
+/* ==========================================================================
+   ANIMATIONS & KEYFRAMES
+   ========================================================================== */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.8deg);
+  }
+}
+
+@keyframes cloudDrift {
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(12px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 15px rgba(245, 201, 107, 0.4));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 35px rgba(245, 201, 107, 0.85));
+  }
+}
+
+@keyframes twinkleStar {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate(15deg);
+  }
+}
+
+@keyframes pulseStatus {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes spinKeySlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
