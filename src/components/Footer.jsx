@@ -35,6 +35,7 @@ export function Footer({ onOpenSecretRoom }) {
               className="retro-btn secondary sm"
               onClick={onOpenSecretRoom}
               title="Unlock Easter Egg"
+              aria-label="Unlock Secret Dream Room"
             >
               <Sparkles size={14} />
               <span>Secret Room 🗝️</span>

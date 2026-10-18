@@ -31,7 +31,6 @@ export function DreamDeliveryMap() {
     const animate = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(1, elapsed / duration);
-      setStarProgress(progress);
 
       // Compute coordinate outside render
       if (pathRef.current) {
