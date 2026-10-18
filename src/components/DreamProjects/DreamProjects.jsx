@@ -8,16 +8,25 @@ import { dreamAudio } from "../../utils/audioSynth";
 
 export function DreamProjects() {
   const [activeTab, setActiveTab] = useState("lullaby");
+  const [isMinimized, setIsMinimized] = useState(false);
 
   const projects = [
-    { id: "lullaby", name: "01. The Lullaby Lab", icon: Music, badge: "WebAudio Synth" },
-    { id: "lantern", name: "02. Nightlight Collection", icon: SunDim, badge: "Dynamic Aura" },
-    { id: "delivery", name: "03. Delivery Routes", icon: Map, badge: "SVG Telemetry" },
-    { id: "storybook", name: "04. Bedtime Storybook", icon: BookOpen, badge: "Folio Tales" },
+    { id: "lullaby", name: "01. The Lullaby Lab", icon: Music, badge: "WebAudio Synth", file: "LULLABY_LAB.EXE" },
+    { id: "lantern", name: "02. Nightlight Collection", icon: SunDim, badge: "Dynamic Aura", file: "NIGHTLIGHTS.LUM" },
+    { id: "delivery", name: "03. Delivery Routes", icon: Map, badge: "SVG Telemetry", file: "DELIVERY_RADAR.SVG" },
+    { id: "storybook", name: "04. Bedtime Storybook", icon: BookOpen, badge: "Folio Tales", file: "BEDTIME_TALES.FOLIO" },
   ];
+
+  const currentProj = projects.find((p) => p.id === activeTab) || projects[0];
 
   const handleTabChange = (id) => {
     setActiveTab(id);
+    if (isMinimized) setIsMinimized(false);
+    dreamAudio.playUiSparkle("click");
+  };
+
+  const toggleMinimize = () => {
+    setIsMinimized(!isMinimized);
     dreamAudio.playUiSparkle("click");
   };
 
@@ -39,17 +48,36 @@ export function DreamProjects() {
         <div className="window-titlebar">
           <div className="window-title">
             <FolderGit2 size={16} />
-            <span>MIDNIGHT_INVENTIONS_BROWSER.EXE</span>
+            <span>C:\NURSERY\INVENTIONS\{currentProj.file}</span>
           </div>
           <div className="window-controls">
-            <span className="window-btn btn-min" />
-            <span className="window-btn btn-max" />
-            <span className="window-btn btn-close" />
+            <button
+              className="window-btn btn-min"
+              onClick={toggleMinimize}
+              title={isMinimized ? "Restore Window" : "Minimize Window"}
+              aria-label={isMinimized ? "Restore Inventions Window" : "Minimize Inventions Window"}
+            />
+            <button
+              className="window-btn btn-max"
+              onClick={() => {
+                if (isMinimized) setIsMinimized(false);
+                dreamAudio.playUiSparkle("click");
+              }}
+              title="Focus Active Tab"
+              aria-label="Focus Active Project Tab"
+            />
+            <button
+              className="window-btn btn-close"
+              onClick={toggleMinimize}
+              title={isMinimized ? "Restore Window" : "Minimize Window"}
+              aria-label={isMinimized ? "Restore Inventions Window" : "Minimize Inventions Window"}
+            />
           </div>
         </div>
 
         {/* Window Content */}
-        <div style={{ padding: "30px" }}>
+        {!isMinimized ? (
+          <div style={{ padding: "30px" }}>
           {/* Tab Selector Buttons */}
           <div className="projects-nav-tabs" role="tablist" aria-label="Dream Projects Tabs">
             {projects.map((p) => {
@@ -89,6 +117,35 @@ export function DreamProjects() {
             {activeTab === "storybook" && <Storybook />}
           </div>
         </div>
+        ) : (
+          <div
+            style={{
+              padding: "24px 30px",
+              textAlign: "center",
+              background: "var(--bg-surface)",
+              color: "var(--text-muted)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "1.05rem",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setIsMinimized(false);
+              dreamAudio.playUiSparkle("click");
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label="Restore minimized inventions window"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setIsMinimized(false);
+                dreamAudio.playUiSparkle("click");
+              }
+            }}
+          >
+            ✦ INVENTIONS WINDOW MINIMIZED — CLICK HERE OR [RESTORE] TO OPEN ✦
+          </div>
+        )}
 
         {/* Status Bar */}
         <div className="window-statusbar">

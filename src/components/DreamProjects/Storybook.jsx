@@ -28,9 +28,13 @@ export function Storybook() {
     });
   }, []);
 
-  // Keyboard navigation support (Arrow keys)
+  // Keyboard navigation support (Arrow keys) - safely ignores typing in input fields
   useEffect(() => {
     const handleKeyDown = (e) => {
+      const activeTag = document.activeElement?.tagName;
+      if (activeTag === "INPUT" || activeTag === "TEXTAREA" || document.activeElement?.isContentEditable) {
+        return;
+      }
       if (e.key === "ArrowRight") goToNextPage();
       if (e.key === "ArrowLeft") goToPrevPage();
     };
@@ -40,7 +44,12 @@ export function Storybook() {
 
   return (
     <div className="storybook-container">
-      <div className="storybook-page-card">
+      {/* Screen reader live region for page changes */}
+      <div className="sr-only" role="status" aria-live="polite">
+        Page {page.page} of {totalPages}: {page.title}
+      </div>
+
+      <div className="storybook-page-card" key={page.page}>
         {/* Storybook Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>

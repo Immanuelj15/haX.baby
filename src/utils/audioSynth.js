@@ -9,12 +9,22 @@ class DreamAudioEngine {
   constructor() {
     this.ctx = null;
     this.masterGain = null;
-    this.isMuted = false;
+    let savedMuted = false;
+    let savedVol = 0.35;
+    try {
+      savedMuted = localStorage.getItem("pip_audio_muted") === "true";
+      const volStr = localStorage.getItem("pip_audio_volume");
+      if (volStr) savedVol = parseFloat(volStr);
+    } catch {
+      // ignore
+    }
+
+    this.isMuted = savedMuted;
     this.isPlayingLullaby = false;
     this.currentTimeout = null;
     this.activeNodes = new Set();
     this.listeners = new Set();
-    this.volume = 0.35; // gentle, conservative default volume
+    this.volume = isNaN(savedVol) ? 0.35 : Math.max(0, Math.min(1, savedVol));
     this.tempo = 96; // dreamy, relaxed tempo in BPM
     this.preset = "musicBox"; // "musicBox" | "starChimes" | "dreamHarp"
 
@@ -75,6 +85,11 @@ class DreamAudioEngine {
 
   setMuted(muted) {
     this.isMuted = muted;
+    try {
+      localStorage.setItem("pip_audio_muted", String(muted));
+    } catch {
+      // ignore
+    }
     if (this.masterGain && this.ctx) {
       const now = this.ctx.currentTime;
       this.masterGain.gain.cancelScheduledValues(now);
@@ -86,6 +101,11 @@ class DreamAudioEngine {
 
   setVolume(vol) {
     this.volume = Math.max(0, Math.min(1, vol));
+    try {
+      localStorage.setItem("pip_audio_volume", String(this.volume));
+    } catch {
+      // ignore
+    }
     if (this.masterGain && this.ctx && !this.isMuted) {
       const now = this.ctx.currentTime;
       this.masterGain.gain.setValueAtTime(this.volume, now);

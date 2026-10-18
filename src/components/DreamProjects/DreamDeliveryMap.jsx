@@ -219,6 +219,16 @@ export function DreamDeliveryMap() {
                   opacity={isSelected ? 0.35 : 0.15}
                   filter="url(#starGlowFilter)"
                 />
+                {/* Selection Ring (Non-color shape indicator) */}
+                {isSelected && (
+                  <circle
+                    r="15"
+                    fill="none"
+                    stroke="#ffffff"
+                    strokeWidth="1.5"
+                    strokeDasharray="3 3"
+                  />
+                )}
                 {/* Core Node */}
                 <circle
                   r={isSelected ? 9 : 6.5}

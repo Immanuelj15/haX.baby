@@ -8,10 +8,12 @@ export function SecretRoomModal({ isOpen, onClose }) {
   const [currentWish, setCurrentWish] = useState(SECRET_WISHES[0]);
   const [dispensedCount, setDispensedCount] = useState(0);
   const closeButtonRef = useRef(null);
+  const previousFocusRef = useRef(null);
 
-  // Trigger confetti and secret sound upon opening
+  // Trigger confetti and secret sound upon opening, save and restore focus
   useEffect(() => {
     if (isOpen) {
+      previousFocusRef.current = document.activeElement;
       dreamAudio.playUiSparkle("secret");
 
       // Check prefers-reduced-motion
@@ -42,6 +44,10 @@ export function SecretRoomModal({ isOpen, onClose }) {
       return () => {
         clearTimeout(timer);
         window.removeEventListener("keydown", handleKeyDown);
+        // Restore focus to opener element
+        if (previousFocusRef.current && typeof previousFocusRef.current.focus === "function") {
+          previousFocusRef.current.focus();
+        }
       };
     }
   }, [isOpen, onClose]);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Moon, Sun, Volume2, VolumeX, Music, Menu, X, Key, Cloud } from "lucide-react";
+import { Moon, Sun, Volume2, VolumeX, Menu, X, Key, Cloud } from "lucide-react";
 import { dreamAudio } from "../utils/audioSynth";
 
 export function RetroNav({ theme, toggleTheme, onOpenSecretRoom }) {
@@ -52,13 +52,9 @@ export function RetroNav({ theme, toggleTheme, onOpenSecretRoom }) {
     }
   };
 
-  const toggleSound = () => {
+  const toggleMute = () => {
     dreamAudio.init();
-    if (!audioState.isPlaying) {
-      dreamAudio.startLullaby();
-    } else {
-      dreamAudio.setMuted(!audioState.isMuted);
-    }
+    dreamAudio.setMuted(!audioState.isMuted);
   };
 
   return (
@@ -130,28 +126,14 @@ export function RetroNav({ theme, toggleTheme, onOpenSecretRoom }) {
             <Key size={17} />
           </button>
 
-          {/* Sound / Lullaby Toggle */}
+          {/* Sound / Global Audio Mute Toggle */}
           <button
             className={`nav-icon-btn ${audioState.isPlaying && !audioState.isMuted ? "playing" : ""}`}
-            onClick={toggleSound}
-            title={
-              !audioState.isPlaying
-                ? "Start Lullaby Chimes"
-                : audioState.isMuted
-                ? "Unmute Lullaby"
-                : "Mute Lullaby"
-            }
-            aria-label={
-              !audioState.isPlaying
-                ? "Start Lullaby Chimes"
-                : audioState.isMuted
-                ? "Unmute Lullaby"
-                : "Mute Lullaby"
-            }
+            onClick={toggleMute}
+            title={audioState.isMuted ? "Unmute All Sounds" : "Mute All Sounds"}
+            aria-label={audioState.isMuted ? "Unmute All Sounds" : "Mute All Sounds"}
           >
-            {!audioState.isPlaying ? (
-              <Music size={17} />
-            ) : audioState.isMuted ? (
+            {audioState.isMuted ? (
               <VolumeX size={17} />
             ) : (
               <Volume2 size={17} />

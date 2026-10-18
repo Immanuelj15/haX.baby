@@ -1,12 +1,41 @@
 import React, { useState, useRef } from "react";
-import { Sparkles, Heart, ChevronDown, Wand2 } from "lucide-react";
+import { Sparkles, Heart, ChevronDown, Wand2, Star } from "lucide-react";
 import { PIP_CANON } from "../data/portfolioData";
 import { dreamAudio } from "../utils/audioSynth";
 
 export function Hero({ onPipClick, onExploreDreams, onMeetPip, clickCount }) {
   const [bubbleIndex, setBubbleIndex] = useState(0);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [stardustCount, setStardustCount] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pip_stardust_count");
+      return saved ? parseInt(saved, 10) : 0;
+    } catch {
+      return 0;
+    }
+  });
+  const [starFeedback, setStarFeedback] = useState("");
   const avatarRef = useRef(null);
+
+  const handleCatchStar = () => {
+    dreamAudio.playUiSparkle("wish");
+    const nextCount = stardustCount + 1;
+    setStardustCount(nextCount);
+    try {
+      localStorage.setItem("pip_stardust_count", String(nextCount));
+    } catch {
+      // ignore
+    }
+
+    const compliments = [
+      "✨ A warm star mote caught! Pip's lantern glows a bit brighter.",
+      "🌟 Caught one! Tucked safely into the nursery dream-weaver.",
+      "✨ Soft stardust gathered! Cozy dreams for sleepy critters.",
+      "⭐ Sparkling star captured! Pip bows politely with amber eyes.",
+    ];
+    setStarFeedback(compliments[nextCount % compliments.length]);
+    setTimeout(() => setStarFeedback(""), 3500);
+  };
 
   const handlePointerMove = (e) => {
     if (!avatarRef.current) return;
@@ -150,6 +179,26 @@ export function Hero({ onPipClick, onExploreDreams, onMeetPip, clickCount }) {
                   ? `Secret Room Key: ${clickCount}/5 taps`
                   : "Secret Room Unlocked! ✨"}
               </span>
+            </div>
+
+            {/* Mini Dream Interaction: Collect a Dream Star */}
+            <div className="stardust-catcher-box">
+              <button
+                type="button"
+                className="stardust-star-btn"
+                onClick={handleCatchStar}
+                title="Click to catch a gentle falling dream star!"
+                aria-label={`Catch a dream star. Current stardust collected: ${stardustCount}`}
+              >
+                <Star size={15} style={{ color: "var(--accent-gold)", fill: "var(--accent-gold)" }} />
+                <span>Catch a Dream Star</span>
+                <span className="stardust-counter-badge">✦ {stardustCount}</span>
+              </button>
+              {starFeedback && (
+                <div className="stardust-feedback-msg" role="status" aria-live="polite">
+                  {starFeedback}
+                </div>
+              )}
             </div>
           </div>
         </div>
