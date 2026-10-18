@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Moon, Sun, Volume2, VolumeX, Menu, X, Key, Cloud } from "lucide-react";
+import { Moon, Sun, Volume2, VolumeX, Menu, X, Key, Cloud, SunDim } from "lucide-react";
 import { dreamAudio } from "../utils/audioSynth";
 
-export function RetroNav({ theme, toggleTheme, onOpenSecretRoom }) {
+export function RetroNav({ theme, toggleTheme, onOpenSecretRoom, nightlightEnabled, toggleNightlight }) {
   const [activeSection, setActiveSection] = useState("hero");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [audioState, setAudioState] = useState({
@@ -125,6 +125,19 @@ export function RetroNav({ theme, toggleTheme, onOpenSecretRoom }) {
           >
             <Key size={17} />
           </button>
+
+          {/* Nursery Nightlight Beam Toggle (T2.2) */}
+          {theme === "night" && (
+            <button
+              className={`nav-icon-btn ${nightlightEnabled ? "active-nightlight" : ""}`}
+              onClick={toggleNightlight}
+              title={nightlightEnabled ? "Turn Off Nightlight Beam" : "Turn On Nightlight Beam (Reveals Hidden Constellations)"}
+              aria-label={nightlightEnabled ? "Turn Off Nightlight Beam" : "Turn On Nightlight Beam (Reveals Hidden Constellations)"}
+              aria-pressed={nightlightEnabled}
+            >
+              <SunDim size={17} style={{ color: nightlightEnabled ? "var(--accent-gold)" : "inherit" }} />
+            </button>
+          )}
 
           {/* Sound / Global Audio Mute Toggle */}
           <button

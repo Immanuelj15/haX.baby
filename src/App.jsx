@@ -10,6 +10,7 @@ import { OriginStory } from "./components/OriginStory";
 import { DreamGuestbook } from "./components/DreamGuestbook";
 import { SecretRoomModal } from "./components/SecretRoomModal";
 import { Footer } from "./components/Footer";
+import { NightlightBeam } from "./components/NightlightBeam";
 import { dreamAudio } from "./utils/audioSynth";
 
 export default function App() {
@@ -26,6 +27,24 @@ export default function App() {
 
   const [secretRoomOpen, setSecretRoomOpen] = useState(false);
   const [pipClickCount, setPipClickCount] = useState(0);
+  const [nightlightEnabled, setNightlightEnabled] = useState(() => {
+    try {
+      return localStorage.getItem("pip_nightlight_beam") !== "false";
+    } catch {
+      return true;
+    }
+  });
+
+  const toggleNightlight = () => {
+    const nextVal = !nightlightEnabled;
+    setNightlightEnabled(nextVal);
+    dreamAudio.playUiSparkle("click");
+    try {
+      localStorage.setItem("pip_nightlight_beam", String(nextVal));
+    } catch {
+      // ignore
+    }
+  };
 
   // Apply data-theme to root element
   useEffect(() => {
@@ -66,10 +85,15 @@ export default function App() {
       {/* Decorative pointer sparkle trail */}
       <SparkleTrail />
 
+      {/* T2.2: Nursery Nightlight Beam Flashlight Overlay */}
+      <NightlightBeam enabled={nightlightEnabled} theme={theme} />
+
       {/* Floating Retro OS Navigation Dock */}
       <RetroNav
         theme={theme}
         toggleTheme={toggleTheme}
+        nightlightEnabled={nightlightEnabled}
+        toggleNightlight={toggleNightlight}
         onOpenSecretRoom={() => setSecretRoomOpen(true)}
       />
 

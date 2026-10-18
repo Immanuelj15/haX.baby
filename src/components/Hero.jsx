@@ -1,41 +1,13 @@
 import React, { useState, useRef } from "react";
-import { Sparkles, Heart, ChevronDown, Wand2, Star } from "lucide-react";
+import { Sparkles, Heart, ChevronDown, Wand2 } from "lucide-react";
 import { PIP_CANON } from "../data/portfolioData";
 import { dreamAudio } from "../utils/audioSynth";
+import { FallingDreamsGame } from "./FallingDreamsGame";
 
 export function Hero({ onPipClick, onExploreDreams, onMeetPip, clickCount }) {
   const [bubbleIndex, setBubbleIndex] = useState(0);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [stardustCount, setStardustCount] = useState(() => {
-    try {
-      const saved = localStorage.getItem("pip_stardust_count");
-      return saved ? parseInt(saved, 10) : 0;
-    } catch {
-      return 0;
-    }
-  });
-  const [starFeedback, setStarFeedback] = useState("");
   const avatarRef = useRef(null);
-
-  const handleCatchStar = () => {
-    dreamAudio.playUiSparkle("wish");
-    const nextCount = stardustCount + 1;
-    setStardustCount(nextCount);
-    try {
-      localStorage.setItem("pip_stardust_count", String(nextCount));
-    } catch {
-      // ignore
-    }
-
-    const compliments = [
-      "✨ A warm star mote caught! Pip's lantern glows a bit brighter.",
-      "🌟 Caught one! Tucked safely into the nursery dream-weaver.",
-      "✨ Soft stardust gathered! Cozy dreams for sleepy critters.",
-      "⭐ Sparkling star captured! Pip bows politely with amber eyes.",
-    ];
-    setStarFeedback(compliments[nextCount % compliments.length]);
-    setTimeout(() => setStarFeedback(""), 3500);
-  };
 
   const handlePointerMove = (e) => {
     if (!avatarRef.current) return;
@@ -74,7 +46,7 @@ export function Hero({ onPipClick, onExploreDreams, onMeetPip, clickCount }) {
     >
       <div className="hero-stars-bg" aria-hidden="true" />
 
-      <div className="section-wrapper" style={{ width: "100%", paddingBottom: "40px" }}>
+      <div className="section-wrapper hero-section-wrapper" style={{ width: "100%", paddingBottom: "24px" }}>
         <div className="hero-grid">
           {/* Left Column: Text & Story Framing */}
           <div className="hero-content-col">
@@ -181,30 +153,13 @@ export function Hero({ onPipClick, onExploreDreams, onMeetPip, clickCount }) {
               </span>
             </div>
 
-            {/* Mini Dream Interaction: Collect a Dream Star */}
-            <div className="stardust-catcher-box">
-              <button
-                type="button"
-                className="stardust-star-btn"
-                onClick={handleCatchStar}
-                title="Click to catch a gentle falling dream star!"
-                aria-label={`Catch a dream star. Current stardust collected: ${stardustCount}`}
-              >
-                <Star size={15} style={{ color: "var(--accent-gold)", fill: "var(--accent-gold)" }} />
-                <span>Catch a Dream Star</span>
-                <span className="stardust-counter-badge">✦ {stardustCount}</span>
-              </button>
-              {starFeedback && (
-                <div className="stardust-feedback-msg" role="status" aria-live="polite">
-                  {starFeedback}
-                </div>
-              )}
-            </div>
+            {/* Mini Game: Catch Falling Dreams (T2.5) */}
+            <FallingDreamsGame />
           </div>
         </div>
 
         {/* Scroll down prompt */}
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
+        <div style={{ textAlign: "center", marginTop: "32px" }}>
           <button
             onClick={() => {
               dreamAudio.playUiSparkle("click");
@@ -212,12 +167,15 @@ export function Hero({ onPipClick, onExploreDreams, onMeetPip, clickCount }) {
             }}
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "1rem",
+              fontSize: "0.92rem",
               color: "var(--text-muted)",
               display: "inline-flex",
               flexDirection: "column",
               alignItems: "center",
               gap: "4px",
+              background: "transparent",
+              border: "none",
+              cursor: "pointer",
             }}
             aria-label="Scroll to Pip's profile"
           >
