@@ -234,7 +234,7 @@ class DreamAudioEngine {
       try {
         node.stop();
         node.disconnect();
-      } catch (e) {
+      } catch {
         // node might have already ended
       }
     });

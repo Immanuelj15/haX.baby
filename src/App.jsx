@@ -19,7 +19,7 @@ export default function App() {
       const saved = localStorage.getItem("pip_theme");
       if (saved) return saved;
       return window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day";
-    } catch (e) {
+    } catch {
       return "night";
     }
   });
@@ -32,7 +32,7 @@ export default function App() {
     document.documentElement.setAttribute("data-theme", theme);
     try {
       localStorage.setItem("pip_theme", theme);
-    } catch (e) {
+    } catch {
       // ignore
     }
   }, [theme]);

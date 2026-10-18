@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Sparkles, Eye } from "lucide-react";
+import React, { useState } from "react";
+import { Eye } from "lucide-react";
 
 export function VisitorCounter() {
-  const [count, setCount] = useState(1042);
-
-  useEffect(() => {
-    // Honest local visitor counter implementation
-    const stored = localStorage.getItem("pip_local_visits");
-    let currentVisits = stored ? parseInt(stored, 10) : 1042;
-    if (!sessionStorage.getItem("pip_session_counted")) {
-      currentVisits += 1;
-      localStorage.setItem("pip_local_visits", currentVisits.toString());
-      sessionStorage.setItem("pip_session_counted", "true");
+  const [count] = useState(() => {
+    try {
+      const stored = localStorage.getItem("pip_local_visits");
+      let currentVisits = stored ? parseInt(stored, 10) : 1042;
+      if (!sessionStorage.getItem("pip_session_counted")) {
+        currentVisits += 1;
+        localStorage.setItem("pip_local_visits", currentVisits.toString());
+        sessionStorage.setItem("pip_session_counted", "true");
+      }
+      return currentVisits;
+    } catch {
+      return 1042;
     }
-    setCount(currentVisits);
-  }, []);
+  });
 
   // Format count into 6-digit odometer string (e.g. 001043)
   const formatted = count.toString().padStart(6, "0");

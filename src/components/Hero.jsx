@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Sparkles, Heart, ChevronDown, Moon, Cloud, Wand2 } from "lucide-react";
+import { Sparkles, Heart, ChevronDown, Wand2 } from "lucide-react";
 import { PIP_CANON } from "../data/portfolioData";
 import { dreamAudio } from "../utils/audioSynth";
 

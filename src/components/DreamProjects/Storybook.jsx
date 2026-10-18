@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { BookOpen, ChevronLeft, ChevronRight, Bookmark } from "lucide-react";
 import { STORYBOOK_PAGES } from "../../data/portfolioData";
 import { dreamAudio } from "../../utils/audioSynth";
@@ -8,19 +8,25 @@ export function Storybook() {
   const totalPages = STORYBOOK_PAGES.length;
   const page = STORYBOOK_PAGES[currentPageIdx];
 
-  const goToNextPage = () => {
-    if (currentPageIdx < totalPages - 1) {
-      setCurrentPageIdx((prev) => prev + 1);
-      dreamAudio.playUiSparkle("page");
-    }
-  };
+  const goToNextPage = useCallback(() => {
+    setCurrentPageIdx((prev) => {
+      if (prev < totalPages - 1) {
+        dreamAudio.playUiSparkle("page");
+        return prev + 1;
+      }
+      return prev;
+    });
+  }, [totalPages]);
 
-  const goToPrevPage = () => {
-    if (currentPageIdx > 0) {
-      setCurrentPageIdx((prev) => prev - 1);
-      dreamAudio.playUiSparkle("page");
-    }
-  };
+  const goToPrevPage = useCallback(() => {
+    setCurrentPageIdx((prev) => {
+      if (prev > 0) {
+        dreamAudio.playUiSparkle("page");
+        return prev - 1;
+      }
+      return prev;
+    });
+  }, []);
 
   // Keyboard navigation support (Arrow keys)
   useEffect(() => {
@@ -30,7 +36,7 @@ export function Storybook() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentPageIdx]);
+  }, [goToNextPage, goToPrevPage]);
 
   return (
     <div className="storybook-container">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Play, Pause, Volume2, VolumeX, Sparkles, Disc, Radio } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Disc, Radio } from "lucide-react";
 import { dreamAudio } from "../../utils/audioSynth";
 
 export function LullabyPlayer() {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
-import { X, Sparkles, Wand2, Star, Gift } from "lucide-react";
+import { X, Sparkles, Gift } from "lucide-react";
 import { SECRET_WISHES } from "../data/portfolioData";
 import { dreamAudio } from "../utils/audioSynth";
 
@@ -24,7 +24,7 @@ export function SecretRoomModal({ isOpen, onClose }) {
             origin: { y: 0.6 },
             colors: ["#f5c96b", "#f8dce5", "#dcd2f5", "#a34063"],
           });
-        } catch (e) {
+        } catch {
           // ignore if canvas-confetti fails
         }
       }

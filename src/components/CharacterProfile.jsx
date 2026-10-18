@@ -1,5 +1,5 @@
 import React from "react";
-import { FolderHeart, Sparkles, Star, Award, Compass, Heart } from "lucide-react";
+import { FolderHeart, Star, Award, Heart } from "lucide-react";
 import { PIP_CANON } from "../data/portfolioData";
 
 export function CharacterProfile() {

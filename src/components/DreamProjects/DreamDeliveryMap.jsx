@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Send, RotateCcw, MapPin, Sparkles, Home, CheckCircle2 } from "lucide-react";
+import { Send, RotateCcw, MapPin, CheckCircle2 } from "lucide-react";
 import { DELIVERY_CHECKPOINTS } from "../../data/portfolioData";
 import { dreamAudio } from "../../utils/audioSynth";
 
 export function DreamDeliveryMap() {
   const [selectedCheckpoint, setSelectedCheckpoint] = useState(DELIVERY_CHECKPOINTS[0]);
-  const [starProgress, setStarProgress] = useState(0); // 0 to 1
+  const [starPos, setStarPos] = useState({ x: 80, y: 190 });
   const [isDelivering, setIsDelivering] = useState(false);
   const animationRef = useRef(null);
   const pathRef = useRef(null);
@@ -16,14 +16,14 @@ export function DreamDeliveryMap() {
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) {
-      setStarProgress(1);
+      setStarPos({ x: 590, y: 80 });
       setSelectedCheckpoint(DELIVERY_CHECKPOINTS[DELIVERY_CHECKPOINTS.length - 1]);
       setIsDelivering(false);
       dreamAudio.playUiSparkle("wish");
       return;
     }
 
-    setStarProgress(0);
+    setStarPos({ x: 80, y: 190 });
 
     const startTime = performance.now();
     const duration = 4000; // 4 seconds total journey
@@ -32,6 +32,17 @@ export function DreamDeliveryMap() {
       const elapsed = currentTime - startTime;
       const progress = Math.min(1, elapsed / duration);
       setStarProgress(progress);
+
+      // Compute coordinate outside render
+      if (pathRef.current) {
+        try {
+          const length = pathRef.current.getTotalLength();
+          const point = pathRef.current.getPointAtLength(length * progress);
+          setStarPos({ x: point.x, y: point.y });
+        } catch {
+          setStarPos({ x: 80 + progress * 510, y: 190 - progress * 110 });
+        }
+      }
 
       // Select destination along the way based on progress
       const currentIdx = Math.min(
@@ -57,20 +68,6 @@ export function DreamDeliveryMap() {
     };
   }, []);
 
-  // Calculate coordinates of the animated star along the SVG path
-  const getStarCoordinates = () => {
-    if (!pathRef.current) return { x: 80, y: 190 };
-    try {
-      const length = pathRef.current.getTotalLength();
-      const point = pathRef.current.getPointAtLength(length * starProgress);
-      return { x: point.x, y: point.y };
-    } catch (e) {
-      return { x: 80 + starProgress * 510, y: 190 - starProgress * 110 };
-    }
-  };
-
-  const starPos = getStarCoordinates();
-
   return (
     <div className="delivery-map-card">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
@@ -95,7 +92,7 @@ export function DreamDeliveryMap() {
           <button
             className="retro-btn secondary sm"
             onClick={() => {
-              setStarProgress(0);
+              setStarPos({ x: 80, y: 190 });
               setSelectedCheckpoint(DELIVERY_CHECKPOINTS[0]);
               dreamAudio.playUiSparkle("click");
             }}

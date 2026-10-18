@@ -1,10 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MessageSquarePlus, Heart, Send, Sparkles, AlertCircle, CheckCircle } from "lucide-react";
 import { INITIAL_GUESTBOOK } from "../data/portfolioData";
 import { dreamAudio } from "../utils/audioSynth";
 
 export function DreamGuestbook() {
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pip_guestbook_entries");
+      if (saved) {
+        return JSON.parse(saved);
+      }
+      return INITIAL_GUESTBOOK;
+    } catch {
+      return INITIAL_GUESTBOOK;
+    }
+  });
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [selectedTag, setSelectedTag] = useState("Warm Blanket");
@@ -19,26 +29,12 @@ export function DreamGuestbook() {
     "Sweet Lullaby",
   ];
 
-  // Load from localStorage or initialize with canonical entries
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("pip_guestbook_entries");
-      if (saved) {
-        setEntries(JSON.parse(saved));
-      } else {
-        setEntries(INITIAL_GUESTBOOK);
-      }
-    } catch (e) {
-      setEntries(INITIAL_GUESTBOOK);
-    }
-  }, []);
-
   const saveEntries = (newEntries) => {
     setEntries(newEntries);
     try {
       localStorage.setItem("pip_guestbook_entries", JSON.stringify(newEntries));
-    } catch (e) {
-      console.warn("Could not save to localStorage", e);
+    } catch (err) {
+      console.warn("Could not save to localStorage", err);
     }
   };
 

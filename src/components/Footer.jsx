@@ -1,5 +1,5 @@
 import React from "react";
-import { Cloud, Heart, Sparkles, ExternalLink, ShieldCheck } from "lucide-react";
+import { Cloud, Sparkles, ShieldCheck } from "lucide-react";
 import { PIP_CANON } from "../data/portfolioData";
 import { VisitorCounter } from "./VisitorCounter";
 
