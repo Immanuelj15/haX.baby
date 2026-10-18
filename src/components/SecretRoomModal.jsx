@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import { X, Sparkles, Wand2, Star, Gift } from "lucide-react";
 import { SECRET_WISHES } from "../data/portfolioData";
@@ -7,6 +7,7 @@ import { dreamAudio } from "../utils/audioSynth";
 export function SecretRoomModal({ isOpen, onClose }) {
   const [currentWish, setCurrentWish] = useState(SECRET_WISHES[0]);
   const [dispensedCount, setDispensedCount] = useState(0);
+  const closeButtonRef = useRef(null);
 
   // Trigger confetti and secret sound upon opening
   useEffect(() => {
@@ -28,12 +29,20 @@ export function SecretRoomModal({ isOpen, onClose }) {
         }
       }
 
+      // Auto-focus close button when modal opens
+      const timer = setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+
       // Handle Escape key
       const handleKeyDown = (e) => {
         if (e.key === "Escape") onClose();
       };
       window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("keydown", handleKeyDown);
+      };
     }
   }, [isOpen, onClose]);
 
@@ -64,6 +73,7 @@ export function SecretRoomModal({ isOpen, onClose }) {
             <span>PIP'S_SECRET_DREAM_ARCHIVE // CONFIDENTIAL</span>
           </div>
           <button
+            ref={closeButtonRef}
             onClick={onClose}
             style={{ color: "#f5c96b", padding: "4px" }}
             aria-label="Close secret dream room"

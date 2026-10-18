@@ -118,16 +118,24 @@ export function Hero({ onPipClick, onExploreDreams, onMeetPip, clickCount }) {
             {/* Official Pip Avatar with soft 3D clay rendering */}
             <div
               ref={avatarRef}
+              role="button"
+              tabIndex={0}
               className="hero-avatar-wrapper"
               onClick={handleAvatarClick}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleAvatarClick();
+                }
+              }}
               style={{
                 transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
               }}
               title="Click Pip to say hello! (Or tap 5 times to unlock a secret)"
-              aria-label="Official character artwork of Pip the skull baby sitting on a cloud. Click to interact."
+              aria-label="Official character artwork of Pip the skull baby sitting on a cloud. Press Enter or Space to interact."
             >
               <img
-                src="/assets/pip_avatar_cloud.png"
+                src={`${import.meta.env.BASE_URL}assets/pip_avatar_cloud.png`}
                 alt="Pip the sweet skull baby in cozy starry nightcap sitting happily on a fluffy cloud, waving gently."
                 className="hero-pip-img"
               />

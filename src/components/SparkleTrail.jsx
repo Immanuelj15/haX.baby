@@ -15,6 +15,8 @@ export function SparkleTrail() {
     const starSymbols = ["✦", "✧", "⋆", "★", "·"];
     const colors = ["#f5c96b", "#f8dce5", "#dcd2f5", "#fffdfb"];
 
+    const timerIds = new Set();
+
     const handleMouseMove = (e) => {
       const now = Date.now();
       // Throttle particle creation to once every 45ms to protect performance & memory
@@ -37,13 +39,19 @@ export function SparkleTrail() {
       });
 
       // Automatically remove particle after animation completes
-      setTimeout(() => {
+      const timer = setTimeout(() => {
+        timerIds.delete(timer);
         setSparkles((prev) => prev.filter((s) => s.id !== newSparkle.id));
       }, 750);
+      timerIds.add(timer);
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      timerIds.forEach((id) => clearTimeout(id));
+      timerIds.clear();
+    };
   }, []);
 
   return (

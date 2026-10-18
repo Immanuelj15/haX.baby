@@ -45,7 +45,7 @@ export function LullabyPlayer() {
       {/* Left: Official Asset Visual & Spinning Key */}
       <div className={`lullaby-box-visual ${isPlaying ? "playing" : ""}`}>
         <img
-          src="/assets/pip_lullaby_box.png"
+          src={`${import.meta.env.BASE_URL}assets/pip_lullaby_box.png`}
           alt="Pip's hand-crafted Lullaby Music Box with a rainbow unicorn, golden winding key, and dreamy pastel trim."
           className="lullaby-box-img"
         />

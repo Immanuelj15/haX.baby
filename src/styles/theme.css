@@ -363,6 +363,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   margin: 0 auto;
   padding: 80px 24px;
   position: relative;
+  scroll-margin-top: 90px;
+}
+
+header[id], section[id] {
+  scroll-margin-top: 90px;
 }
 
 .section-eyebrow {
@@ -380,11 +385,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-size: clamp(1.75rem, 4.5vw, 2.8rem);
   font-weight: 700;
   color: var(--text-main);
   line-height: 1.2;
   margin-bottom: 14px;
+  word-break: break-word;
 }
 
 .section-subtitle {

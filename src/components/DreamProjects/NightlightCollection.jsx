@@ -23,7 +23,7 @@ export function NightlightCollection() {
         }}
       >
         <img
-          src="/assets/pip_dream_lantern.png"
+          src={`${import.meta.env.BASE_URL}assets/pip_dream_lantern.png`}
           alt="Pip's hand-crafted Dream Lantern featuring a smiling crescent moon, stars, and brass ring handle."
           className="lantern-img"
           style={{

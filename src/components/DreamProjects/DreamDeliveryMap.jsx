@@ -13,6 +13,16 @@ export function DreamDeliveryMap() {
   const startDeliveryAnimation = () => {
     dreamAudio.playUiSparkle("click");
     setIsDelivering(true);
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      setStarProgress(1);
+      setSelectedCheckpoint(DELIVERY_CHECKPOINTS[DELIVERY_CHECKPOINTS.length - 1]);
+      setIsDelivering(false);
+      dreamAudio.playUiSparkle("wish");
+      return;
+    }
+
     setStarProgress(0);
 
     const startTime = performance.now();
@@ -189,11 +199,21 @@ export function DreamDeliveryMap() {
             return (
               <g
                 key={cp.id}
+                role="button"
+                tabIndex={0}
+                aria-label={`Delivery stop: ${cp.name}. Package: ${cp.dream}. Recipient: ${cp.creature}.`}
                 className="map-checkpoint-node"
                 transform={`translate(${cp.x}, ${cp.y})`}
                 onClick={() => {
                   setSelectedCheckpoint(cp);
                   dreamAudio.playUiSparkle("click");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedCheckpoint(cp);
+                    dreamAudio.playUiSparkle("click");
+                  }
                 }}
               >
                 {/* Outer Glow Halo */}

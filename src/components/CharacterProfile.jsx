@@ -36,7 +36,7 @@ export function CharacterProfile() {
             {/* Left: Official Character Portrait */}
             <div className="profile-portrait-box">
               <img
-                src="/assets/pip_portrait.png"
+                src={`${import.meta.env.BASE_URL}assets/pip_portrait.png`}
                 alt="Pip official portrait: cute baby with smooth round skull face, star nightcap, tiny pink bow, and warm glowing eyes holding a dream lantern and music box."
                 className="profile-portrait-img"
               />

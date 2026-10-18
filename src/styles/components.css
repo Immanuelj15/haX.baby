@@ -1103,11 +1103,46 @@
   }
 
   .hero-section {
-    padding-top: 90px;
+    padding-top: 85px;
+  }
+
+  /* Speech bubble resets to static so it never clips offscreen on small screens */
+  .pip-dialogue-bubble {
+    position: static;
+    max-width: 100%;
+    margin: 0 auto 16px;
+  }
+
+  .pip-dialogue-bubble::after {
+    display: none;
+  }
+
+  .hero-avatar-wrapper {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .origin-scene-heading {
+    font-size: clamp(1.4rem, 4.2vw, 2rem);
+  }
+
+  .projects-nav-tabs {
+    gap: 8px;
+  }
+
+  .project-tab-btn {
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px 14px;
+    font-size: 0.92rem;
+  }
+
+  .lullaby-box-img, .lantern-img {
+    max-width: 260px;
   }
 
   .storybook-page-card, .origin-scene-display {
-    padding: 22px 18px;
+    padding: 20px 16px;
   }
 
   .retro-btn {
@@ -1124,3 +1159,43 @@
     align-items: flex-start;
   }
 }
+
+/* Specific micro-mobile adjustments for 320px - 440px viewports */
+@media (max-width: 440px) {
+  .retro-nav-container {
+    padding: 0 8px;
+    top: 8px;
+  }
+
+  .retro-nav-bar {
+    padding: 5px 10px;
+    gap: 8px;
+  }
+
+  /* Hide brand text so 4 controls fit cleanly without overflowing 320px screen */
+  .nav-brand span {
+    display: none;
+  }
+
+  .nav-controls {
+    gap: 4px;
+  }
+
+  .nav-icon-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+
+  .dossier-card {
+    padding: 14px;
+  }
+
+  .mode-selector-card {
+    padding: 12px;
+  }
+}
+
