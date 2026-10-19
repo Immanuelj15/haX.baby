@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Moon, Sun, Volume2, VolumeX, Menu, X, Key, Cloud, SunDim } from "lucide-react";
+import { Moon, Sun, Volume2, VolumeX, Menu, X, Key, Cloud, Flashlight, FlashlightOff } from "lucide-react";
 import { dreamAudio } from "../utils/audioSynth";
 
 export function RetroNav({ theme, toggleTheme, onOpenSecretRoom, nightlightEnabled, toggleNightlight }) {
@@ -135,7 +135,11 @@ export function RetroNav({ theme, toggleTheme, onOpenSecretRoom, nightlightEnabl
               aria-label={nightlightEnabled ? "Turn Off Nightlight Beam" : "Turn On Nightlight Beam (Reveals Hidden Constellations)"}
               aria-pressed={nightlightEnabled}
             >
-              <SunDim size={17} style={{ color: nightlightEnabled ? "var(--accent-gold)" : "inherit" }} />
+              {nightlightEnabled ? (
+                <Flashlight size={17} style={{ color: "var(--accent-gold)" }} />
+              ) : (
+                <FlashlightOff size={17} />
+              )}
             </button>
           )}
 
